@@ -1,0 +1,6 @@
+#!/bin/bash
+id=03
+for i in {0..2}; do
+	miniread.py -r -d /sc/userdata/gotzl/tmp/g_dsp_xenon.bin $id && ./biterr $id && mv ${id}.pdf ${id}_${i}.pdf
+done
+

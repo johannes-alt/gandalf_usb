@@ -1,0 +1,10 @@
+#!/bin/bash
+path=$PWD
+id=$1
+cd /tmp
+$path/scan_ADC_delay.sh -b $id -n 50 > scan_$id
+cat scan_$id | $path/draw_AMC_delays.py -f $id && pdflatex $id.tex
+mv $id.pdf $path
+cd $path
+
+

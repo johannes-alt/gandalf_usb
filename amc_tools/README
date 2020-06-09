@@ -1,0 +1,29 @@
+==== amc_hax.py ====
+Small tool to read data recorded with spyread (VME or USB version, use option '-r' to read data w/o LDC/GDC headers)
+By default opens a ROOT GUI with tabs for each channel and creates histos of amplitudes.
+
+Can be used to cycle through frame events and display them event-by-event (option '-f')
+
+Further usage, see
+> amc_hax.py -h
+
+=== feel free to improve ;)
+
+
+--- how to use amc_hax.py for some analysis
+-- create python script somewhere, here 'test.py'
+import amc_hax
+
+file_ = 'some/file/'
+
+with open(file_) as f_:
+    for evnt in amc_hax.events(f_):
+        print 'event',evnt.ev, evnt.spill
+        if 0 in evnt.hits: print 'hits on channel 0:',[(hit.ch,hit.amplitude,hit.time) for hit in evnt.hits[0]]
+        if evnt.is_frame():
+            print 'frame sampels for channel 0',evnt.frames[0]
+
+-- execute like
+PYTHONPATH=~/workspace/amc_hax/:$PYTHONPATH python test.py
+
+-- if file was written with VME spyread (i.e., no DATE LDC/GDC headers), use 'amc_hax.events(f_, amc_hax.PATTERN_SLINK)'
